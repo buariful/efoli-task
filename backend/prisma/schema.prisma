@@ -13,8 +13,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User model
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id               Int      @id @default(autoincrement())
+  email            String   @unique
+  first_name       String
+  last_name        String?
+  password         String
+  role             UserRole @default(USER)
+  assigned_tickets Ticket[] @relation("AssignedTickets")
+  created_tickets  Ticket[] @relation("CreatedTickets")
+  replied_tickets  Reply[]  @relation("RepliedTickets")
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+}
+
+// Ticket model
+model Ticket {
+  id           Int          @id @default(autoincrement())
+  subject      String
+  description  String
+  status       TicketStatus
+  customer     User         @relation("CreatedTickets", fields: [customer_id], references: [id], onDelete: Cascade)
+  customer_id  Int
+  executive    User?        @relation("AssignedTickets", fields: [executive_id], references: [id], onDelete: SetNull)
+  executive_id Int?
+  reply        Reply?
+  created_at   DateTime     @default(now())
+  updated_at   DateTime     @updatedAt
+}
+
+// Reply model
+model Reply {
+  id         Int    @id @default(autoincrement())
+  ticket     Ticket @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
+  ticket_id  Int    @unique
+  user       User   @relation("RepliedTickets", fields: [replied_by], references: [id], onDelete: Cascade)
+  replied_by Int
+  message    String @db.LongText
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  EXECUTIVE
+
+  @@map("role")
+}
+
+enum TicketStatus {
+  OPEN
+  ASSIGNED
+  CLOSED
+
+  @@map("status")
 }

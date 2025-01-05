@@ -12,6 +12,7 @@
     "prettier": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
     "prettier:fix": "npx prettier --write src",
     "db:migrate": "npx prisma migrate dev --name init",
+    "db:seed": "ts-node prisma/seed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
