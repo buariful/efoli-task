@@ -33,7 +33,7 @@ model Ticket {
   id           Int          @id @default(autoincrement())
   subject      String
   description  String
-  status       TicketStatus
+  status       TicketStatus @default(OPEN)
   customer     User         @relation("CreatedTickets", fields: [customer_id], references: [id], onDelete: Cascade)
   customer_id  Int
   executive    User?        @relation("AssignedTickets", fields: [executive_id], references: [id], onDelete: SetNull)
@@ -69,6 +69,7 @@ enum UserRole {
 
 enum TicketStatus {
   OPEN
+  SUBMITTED
   ASSIGNED
   CLOSED
 

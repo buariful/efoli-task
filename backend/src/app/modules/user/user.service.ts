@@ -7,9 +7,9 @@ import AppError from "../../errors/AppError";
 
 const prisma = new PrismaClient({ log: ["query"] });
 
-const createToken = (email: string, id: number) => {
+const createToken = (email: string, id: number, role: string) => {
   const token = jwt.sign(
-    { email: email, id: id },
+    { email: email, id: id, role },
     config.jwt_secret as string,
     {
       expiresIn: config.jwt_expires_in,
@@ -61,7 +61,7 @@ const insertUserIntoDB = async (userData: TUserCreate) => {
   });
 
   // Create JWT token
-  const token = createToken(email, result?.id);
+  const token = createToken(email, result?.id, role);
 
   return { data: result?.id, token };
 };
@@ -84,7 +84,7 @@ const userLogin = async (loginData: TUserLogin) => {
   }
 
   // Create JWT token
-  const token = createToken(email, user?.id);
+  const token = createToken(email, user?.id, user?.role);
 
   return {
     id: user?.id,
