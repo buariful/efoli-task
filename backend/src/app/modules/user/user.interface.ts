@@ -6,4 +6,9 @@ export type TUserCreate = {
   role: TUserRole;
 };
 
+export type TUserLogin = {
+  email: string;
+  password: string;
+};
+
 export type TUserRole = "CUSTOMER" | "ADMIN" | "EXECUTIVE";

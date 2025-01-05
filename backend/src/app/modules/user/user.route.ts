@@ -11,4 +11,10 @@ router.post(
   catchAsync(UserController.createUser)
 );
 
+router.post(
+  "/user/login",
+  validateRequest(UserValidation.userLoginSchema),
+  catchAsync(UserController.userLogin)
+);
+
 export const UserRoutes = router;

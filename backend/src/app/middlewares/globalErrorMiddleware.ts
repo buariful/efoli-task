@@ -30,6 +30,7 @@ const globalErrorMiddleware: ErrorRequestHandler = (err, req, res, next) => {
 
   res.status(statusCode).json({
     success: false,
+    status: statusCode,
     message,
     errorMessage,
     errorDetails: err,
