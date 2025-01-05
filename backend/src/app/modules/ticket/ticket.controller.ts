@@ -1,4 +1,4 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Response } from "express";
 import sendResponse from "../../../utils/sendResponse";
 import { TicketServices } from "./ticket.service";
 import { AuthenticatedRequest } from "../user/user.interface";
@@ -77,10 +77,26 @@ const deleteTicket: RequestHandler = async (req, res) => {
   });
 };
 
+const assignExecutiveToTicket = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  const { ticketId, executiveId } = req.body;
+  await TicketServices.assignExecutive(ticketId, executiveId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Tickets assigned successfully",
+    data: null,
+  });
+};
+
 export const TicketController = {
   createTicket,
   getSingleTicket,
   getAllTickets,
   submitTicket,
   deleteTicket,
+  assignExecutiveToTicket,
 };

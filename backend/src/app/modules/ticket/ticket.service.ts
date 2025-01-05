@@ -1,8 +1,16 @@
-import { PrismaClient, UserRole } from "@prisma/client";
+import { PrismaClient, TicketStatus, UserRole } from "@prisma/client";
 import { TTicketCreate } from "./ticket.interface";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 const prisma = new PrismaClient();
+
+const isTicketExists = async (ticketId: number) => {
+  return await prisma.ticket.findUnique({
+    where: {
+      id: ticketId,
+    },
+  });
+};
 
 // get all tickets
 const getAllTicketsByRole = async (role: UserRole, userId: number) => {
@@ -110,11 +118,7 @@ const submitTicket = async (ticketId: number, userId: number) => {
 // delete ticket
 const deleteTicket = async (ticketId: number, userId: number) => {
   // check if ticket exists
-  const ticket = await prisma.ticket.findUnique({
-    where: {
-      id: ticketId,
-    },
-  });
+  const ticket = await isTicketExists(ticketId);
   if (!ticket) {
     throw new AppError(httpStatus.NOT_FOUND, "Ticket not found");
   }
@@ -132,10 +136,28 @@ const deleteTicket = async (ticketId: number, userId: number) => {
   return null;
 };
 
+const assignExecutive = async (ticketId: number, executiveId: number) => {
+  const ticket = await isTicketExists(ticketId);
+  if (!ticket) {
+    throw new AppError(httpStatus.NOT_FOUND, "Ticket not found");
+  }
+
+  await prisma.ticket.update({
+    where: {
+      id: ticketId,
+    },
+    data: {
+      executive_id: executiveId,
+      status: TicketStatus.ASSIGNED,
+    },
+  });
+};
+
 export const TicketServices = {
   getAllTicketsByRole,
   getSingleTicket,
   insertTicketIntoDB,
   submitTicket,
   deleteTicket,
+  assignExecutive,
 };

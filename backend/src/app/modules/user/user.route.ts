@@ -3,9 +3,6 @@ import { UserController } from "./user.controller";
 import catchAsync from "../../../utils/catchAsync";
 import validateRequest from "../../middlewares/validateRequest";
 import { UserValidation } from "./user.validation.schema";
-import TokenMiddleware from "../../middlewares/tokenMiddleware";
-import { AuthenticatedRequest } from "./user.interface";
-import { UserRole } from "@prisma/client";
 
 const router = express.Router();
 
@@ -20,15 +17,5 @@ router.post(
   validateRequest(UserValidation.userLoginSchema),
   catchAsync(UserController.userLogin)
 );
-
-router.get("/user", TokenMiddleware([UserRole.ADMIN]), (req, res) => {
-  const request = req as AuthenticatedRequest;
-  res.status(200).json({
-    success: true,
-    statusCode: 200,
-    message: "User found successfully",
-    user: request?.user,
-  });
-});
 
 export const UserRoutes = router;

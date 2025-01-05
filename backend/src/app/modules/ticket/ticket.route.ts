@@ -33,5 +33,10 @@ router.delete(
   TokenMiddleware([UserRole.CUSTOMER]),
   catchAsync(TicketController.deleteTicket)
 );
+router.put(
+  "/ticket/assign-executive",
+  TokenMiddleware([UserRole.ADMIN]),
+  catchAsync(TicketController.assignExecutiveToTicket)
+);
 
 export const TicketRoute = router;
