@@ -4,13 +4,15 @@ import sendResponse from "../../../utils/sendResponse";
 
 const createUser: RequestHandler = async (req, res) => {
   const result = await UserServices.insertUserIntoDB(req.body);
-  console.log("user->", result);
 
   sendResponse(res, {
     success: true,
     statusCode: 201,
     message: "User created successfully",
-    data: result,
+    data: {
+      id: result?.data,
+      token: result?.token,
+    },
   });
 };
 
