@@ -5,7 +5,7 @@ const router = express.Router();
 const moduleRoutes = [UserRoutes];
 
 moduleRoutes.forEach((route) => {
-  router.use("/api", route);
+  router.use("/api/v1", route);
 });
 
 export const AppRoute = router;

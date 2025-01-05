@@ -1,10 +1,8 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import { UserController } from "./user.controller";
+import catchAsync from "../../../utils/catchAsync";
 const router = express.Router();
 
-router.get("/v1/checking", (req: Request, res: Response) => {
-  res.status(200).json({
-    success: true,
-    message: "User route is working",
-  });
-});
+router.post("/user/register", catchAsync(UserController.createUser));
+
 export const UserRoutes = router;

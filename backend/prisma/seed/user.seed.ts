@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, UserRole } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const seedUsers = async () => {
@@ -9,21 +9,21 @@ const seedUsers = async () => {
         first_name: "John",
         last_name: "Doe",
         password: "a123456",
-        role: "USER",
+        role: UserRole.CUSTOMER,
       },
       {
         email: "admin1@example.com",
         first_name: "Admin",
         last_name: "User",
         password: "a123456",
-        role: "ADMIN",
+        role: UserRole.ADMIN,
       },
       {
         email: "executive1@example.com",
         first_name: "Jane",
         last_name: "Smith",
         password: "a123456",
-        role: "EXECUTIVE",
+        role: UserRole.EXECUTIVE,
       },
     ],
   });

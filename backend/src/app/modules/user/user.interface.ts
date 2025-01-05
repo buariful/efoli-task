@@ -3,5 +3,7 @@ export type TUserCreate = {
   last_name?: string;
   email: string;
   password: string;
-  role: "USER" | "ADMIN" | "EXECUTIVE";
+  role: TUserRole;
 };
+
+export type TUserRole = "CUSTOMER" | "ADMIN" | "EXECUTIVE";

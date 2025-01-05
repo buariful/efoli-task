@@ -20,7 +20,7 @@ model User {
   first_name       String
   last_name        String?
   password         String
-  role             UserRole @default(USER)
+  role             UserRole @default(CUSTOMER)
   assigned_tickets Ticket[] @relation("AssignedTickets")
   created_tickets  Ticket[] @relation("CreatedTickets")
   replied_tickets  Reply[]  @relation("RepliedTickets")
@@ -53,8 +53,14 @@ model Reply {
   message    String @db.LongText
 }
 
+enum Role {
+  CUSTOMER
+  ADMIN
+  EXECUTIVE
+}
+
 enum UserRole {
-  USER
+  CUSTOMER
   ADMIN
   EXECUTIVE
 

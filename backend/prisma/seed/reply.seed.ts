@@ -5,8 +5,8 @@ const seedReplies = async () => {
   await prisma.reply.createMany({
     data: [
       {
-        ticket_id: 1, // Replace with the appropriate `ticket.id`
-        replied_by: 3, // Replace with the appropriate `user.id` for an executive or admin
+        ticket_id: 1,
+        replied_by: 3,
         message: "We are looking into your delivery issue.",
       },
       {
