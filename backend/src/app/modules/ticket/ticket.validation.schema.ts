@@ -8,6 +8,14 @@ const ticketCreateSchema = z.object({
   }),
 });
 
+const ticketAssignSchema = z.object({
+  body: z.object({
+    ticketId: z.number(),
+    executiveId: z.number(),
+  }),
+});
+
 export const TicketValidation = {
   ticketCreateSchema,
+  ticketAssignSchema,
 };

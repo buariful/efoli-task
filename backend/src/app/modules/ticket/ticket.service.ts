@@ -137,11 +137,26 @@ const deleteTicket = async (ticketId: number, userId: number) => {
 };
 
 const assignExecutive = async (ticketId: number, executiveId: number) => {
+  // checking if ticket exists
   const ticket = await isTicketExists(ticketId);
   if (!ticket) {
     throw new AppError(httpStatus.NOT_FOUND, "Ticket not found");
   }
 
+  // checking if executive id valid
+  const executive = await prisma.user.findUnique({
+    where: {
+      id: executiveId,
+    },
+  });
+  if (!executive) {
+    throw new AppError(httpStatus.NOT_FOUND, "Executive not found");
+  }
+  if (executive.role !== UserRole.EXECUTIVE) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Unauthorized");
+  }
+
+  // assign executive
   await prisma.ticket.update({
     where: {
       id: ticketId,

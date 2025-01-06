@@ -95,10 +95,17 @@ const userLogin = async (loginData: TUserLogin) => {
   };
 };
 
+const getAllUsers = async () => {
+  const result = await prisma.user.findMany({});
+
+  return result;
+};
+
 export const UserServices = {
   insertUserIntoDB,
   isUserExist,
   hashPassword,
   createToken,
   userLogin,
+  getAllUsers,
 };

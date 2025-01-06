@@ -36,6 +36,7 @@ router.delete(
 router.put(
   "/ticket/assign-executive",
   TokenMiddleware([UserRole.ADMIN]),
+  validateRequest(TicketValidation.ticketAssignSchema),
   catchAsync(TicketController.assignExecutiveToTicket)
 );
 

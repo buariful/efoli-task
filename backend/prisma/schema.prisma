@@ -45,12 +45,12 @@ model Ticket {
 
 // Reply model
 model Reply {
-  id         Int    @id @default(autoincrement())
-  ticket     Ticket @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
-  ticket_id  Int    @unique
-  user       User   @relation("RepliedTickets", fields: [replied_by], references: [id], onDelete: Cascade)
-  replied_by Int
-  message    String @db.LongText
+  id        Int    @id @default(autoincrement())
+  ticket    Ticket @relation(fields: [ticket_id], references: [id], onDelete: Cascade)
+  ticket_id Int    @unique
+  user      User   @relation("RepliedTickets", fields: [user_id], references: [id], onDelete: Cascade)
+  user_id   Int
+  message   String @db.LongText
 }
 
 enum Role {

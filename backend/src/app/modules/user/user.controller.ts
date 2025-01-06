@@ -28,7 +28,19 @@ const userLogin: RequestHandler = async (req, res) => {
   });
 };
 
+const getAllUsers: RequestHandler = async (req, res) => {
+  const result = await UserServices.getAllUsers();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Users found successfully",
+    data: result,
+  });
+};
+
 export const UserController = {
   createUser,
   userLogin,
+  getAllUsers,
 };
